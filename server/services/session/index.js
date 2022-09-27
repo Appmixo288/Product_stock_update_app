@@ -29,7 +29,7 @@ class CustomSessionStorage {
 
   deleteCallback = async (id) => {
     try {
-      console.log("33333333333333333333333333333333333333");
+      console.log("deleteCallback");
       return Promise.resolve(!!(await removeSession(id)));
     } catch (err) {
       throw new Error(err);

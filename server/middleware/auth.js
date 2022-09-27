@@ -94,7 +94,6 @@ export default function applyAuthMiddleware(app) {
         },
       });
       // all_delete_metafields(session);
-      // console.log("==================================");
 
       const dataShop = await DBShopServices.getShopData(session.shop);
 

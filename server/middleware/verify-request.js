@@ -12,11 +12,10 @@ export default function verifyRequest(app, { returnHeader = true } = {}) {
   return async (req, res, next) => {
     const session = await Shopify.Utils.loadCurrentSession(req, res, false);
 
-    console.log(session);
     let shop = req.query.shop;
     if (session && shop && session.shop !== shop) {
       // The current request is for a different shop. Redirect gracefully.
-      console.log("first consdition");
+
       return res.redirect(`/auth?shop=${shop}`);
     }
 
@@ -82,18 +81,13 @@ export default function verifyRequest(app, { returnHeader = true } = {}) {
 
 export const verifyWebhook = async (req, res, next) => {
   try {
-    console.log("verifyWebhook call ");
     const hmac = req.get("X-Shopify-Hmac-Sha256");
-    console.log(" hmac : ", hmac);
 
     const body = await getRawBody(req);
-    // req.body = { ...JSON.parse(body) };
-    // console.log("body : ", JSON.parse(body));
     const digest = crypto
       .createHmac("sha256", process.env.SHOPIFY_API_SECRET)
       .update(body, "utf8", "hex")
       .digest("base64");
-    console.log("digest: ", digest);
     if (digest !== hmac) {
       console.log("webhook verification failed");
       return res.status(401).send("hmac validation failed");

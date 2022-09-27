@@ -19,7 +19,6 @@ const PORT = parseInt(process.env.PORT || "8081", 10);
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
 const sessionStorage = new CustomSessionStorage();
 
-console.log("11");
 Shopify.Context.initialize({
   API_KEY: process.env.SHOPIFY_API_KEY,
   API_SECRET_KEY: process.env.SHOPIFY_API_SECRET,
@@ -61,7 +60,6 @@ export async function createServer(
   app.set("use-online-tokens", USE_ONLINE_TOKENS);
 
   app.use(cookieParser(Shopify.Context.API_SECRET_KEY));
-  console.log("44");
   applyAuthMiddleware(app);
 
   app.post("/webhooks", async (req, res) => {
@@ -75,7 +73,6 @@ export async function createServer(
       }
     }
   });
-  console.log("55");
   app.get("/products-count", verifyRequest(app), async (req, res) => {
     const session = await Shopify.Utils.loadCurrentSession(req, res, false);
     const { Product } = await import(
@@ -85,7 +82,6 @@ export async function createServer(
     const countData = await Product.count({ session });
     res.status(200).send(countData);
   });
-  console.log("66");
   app.post("/graphql", verifyRequest(app), async (req, res) => {
     try {
       const response = await Shopify.Utils.graphqlProxy(req, res);
@@ -93,20 +89,6 @@ export async function createServer(
     } catch (error) {
       res.status(500).send(error.message);
     }
-  });
-  app.post("/customers-data-request", verifyWebhook, async (req, res) => {
-    // console.log("customers-data-request");
-    return res.sendStatus(200);
-  });
-
-  app.post("/customer-redact", verifyWebhook, async (req, res) => {
-    // console.log("ctx----customers-redact");
-    return res.sendStatus(200);
-  });
-
-  app.post("/shop-redact", verifyWebhook, async (req, res) => {
-    // console.log("ctx---shop-redact");
-    return res.sendStatus(200);
   });
   app.use(express.json());
 

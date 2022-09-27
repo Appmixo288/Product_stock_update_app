@@ -166,21 +166,19 @@ const HomePage = () => {
                     quantity: Number(updateQty),
                     inventory_item_id: Number(actionData.inventory_item_id),
                   });
-                  setTimeout(async () => {
-                    setPage(1);
-                    setQueryValue("");
-                    setloadingFlag(false);
+                  if (res.data.success) {
+                    setTimeout(async () => {
+                      setPage(1);
+                      setQueryValue("");
+                      setloadingFlag(false);
+                      setEditActive(false);
+                      setGetLoader(true);
+                      toggleToastFlag();
+                      setToastMessage("Product Quantity has been updated");
+                    }, 3000);
+                  } else {
                     setEditActive(false);
-                    setGetLoader(true);
-                    // const response = await Get_All_Products(app);
-                    // if (response) {
-                    //   setDisplayData(response);
-                    //   setTotalPage(Math.ceil(response.length / pagePerData));
-                    //   setItem(response);
-                    // }
-                    toggleToastFlag();
-                    setToastMessage("Product Quantity has been updated");
-                  }, 3000);
+                  }
                 } else {
                   toggleToastFlag();
                   setToastMessage("Product Quantity same as current quantity");
@@ -241,10 +239,7 @@ const HomePage = () => {
                       heading="Manage your Stock Update App"
                       image="https://cdn.shopify.com/s/files/1/0262/4071/2726/files/emptystate-files.png"
                     >
-                      <p>
-                        Click on "Products" button to left panel and create your
-                        first product
-                      </p>
+                      <p>NO one products right now "Out of Stock"</p>
                     </EmptyState>
                   </>
                 ) : (
@@ -326,7 +321,7 @@ const HomePage = () => {
               </div>
             </div>
             <div>Status</div>
-            <div>SKU</div>
+            <div>OutofStock Date</div>
             <div className="selected_end">
               <div>Quantity</div>
               <div>Action</div>
@@ -370,7 +365,11 @@ const HomePage = () => {
               </div>
               <div>
                 <div style={{ fontSize: "14px", fontWeight: "bold" }}>
-                  {sku}
+                  {new Date(updated_at).getFullYear() +
+                    "-" +
+                    (new Date(updated_at).getMonth() + 1) +
+                    "-" +
+                    new Date(updated_at).getDate()}
                 </div>
               </div>
             </div>
