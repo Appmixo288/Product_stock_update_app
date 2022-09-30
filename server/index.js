@@ -2,7 +2,7 @@
 import { resolve } from "path";
 import express from "express";
 import cookieParser from "cookie-parser";
-import { Shopify, ApiVersion } from "@shopify/shopify-api";
+import { Shopify } from "@shopify/shopify-api";
 import "dotenv/config";
 import { connectDB } from "./services/db/index.js";
 import applyAuthMiddleware from "./middleware/auth.js";
@@ -10,7 +10,6 @@ import verifyRequest from "./middleware/verify-request.js";
 import ProductsRouter from "./services/products/products.route.js";
 import bodyParser from "body-parser";
 import { addWebhookHandlers } from "./webhooks/index.js";
-import { verifyWebhook } from "./middleware/verify-request.js";
 import CustomSessionStorage from "./services/session/index.js";
 const USE_ONLINE_TOKENS = false;
 const TOP_LEVEL_OAUTH_COOKIE = "shopify_top_level_oauth";
