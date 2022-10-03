@@ -2,7 +2,8 @@
   "name": "shopify-app-node",
   "private": true,
   "scripts": {
-   
+    "build": "npm run build:client",
+    "build:client": "vite build --outDir dist/client",
     "start": "cross-env NODE_ENV=production node server/index.js"
   },
   "type": "module",
